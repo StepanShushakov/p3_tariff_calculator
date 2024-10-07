@@ -7,6 +7,13 @@ cost:
     minimal: 350
     perCubicMeter: 5000
 
+coordinates:
+  range:
+    minLatitude: 45
+    maxLatitude: 65
+    minLongitude: 30
+    maxLongitude: 96
+
 logging:
   level:
     org.springframework: info
