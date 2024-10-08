@@ -2,6 +2,7 @@ package ru.fastdelivery.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Qualifier;
 import ru.fastdelivery.domain.common.currency.CurrencyFactory;
 import ru.fastdelivery.domain.common.currency.CurrencyPropertiesProvider;
 import ru.fastdelivery.usecase.CoordinatesBorders;
@@ -20,7 +21,8 @@ public class Beans {
     }
 
     @Bean
-    public TariffCalculateUseCase tariffCalculateUseCase(WeightPriceProvider weightPriceProvider, CoordinatesBorders coordinatesBorders) {
+    public TariffCalculateUseCase tariffCalculateUseCase(WeightPriceProvider weightPriceProvider,
+                                                         @Qualifier("coordinatesProperties") CoordinatesBorders coordinatesBorders) {
         return new TariffCalculateUseCase(weightPriceProvider, coordinatesBorders);
     }
 }
