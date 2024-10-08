@@ -10,6 +10,7 @@ import ru.fastdelivery.domain.common.currency.CurrencyFactory;
 import ru.fastdelivery.domain.common.price.Price;
 import ru.fastdelivery.presentation.api.request.CalculatePackagesRequest;
 import ru.fastdelivery.presentation.api.request.CargoPackage;
+import ru.fastdelivery.presentation.api.request.Coordinates;
 import ru.fastdelivery.presentation.api.response.CalculatePackagesResponse;
 import ru.fastdelivery.usecase.TariffCalculateUseCase;
 
@@ -34,9 +35,12 @@ class CalculateControllerTest extends ControllerTest {
     void whenValidInputData_thenReturn200() {
         var bigFifty = BigInteger.valueOf(50);
         var request = new CalculatePackagesRequest(
-                List.of(new CargoPackage(BigInteger.TEN, bigFifty, bigFifty, bigFifty)), "RUB");
+                List.of(new CargoPackage(BigInteger.TEN, bigFifty, bigFifty, bigFifty)),
+                "RUB",
+                new Coordinates(77.1539,-139.398),
+                new Coordinates(-77.1804,139.55));
         var rub = new CurrencyFactory(code -> true).create("RUB");
-        when(useCase.calc(any())).thenReturn(new Price(BigDecimal.valueOf(10), rub));
+        when(useCase.calc(any(), any(), any())).thenReturn(new Price(BigDecimal.valueOf(10), rub));
         when(useCase.minimalPrice()).thenReturn(new Price(BigDecimal.valueOf(5), rub));
 
         ResponseEntity<CalculatePackagesResponse> response =
@@ -48,7 +52,7 @@ class CalculateControllerTest extends ControllerTest {
     @Test
     @DisplayName("Список упаковок == null -> Ответ 400")
     void whenEmptyListPackages_thenReturn400() {
-        var request = new CalculatePackagesRequest(null, "RUB");
+        var request = new CalculatePackagesRequest(null, "RUB", null, null);
 
         ResponseEntity<String> response = restTemplate.postForEntity(baseCalculateApi, request, String.class);
 
