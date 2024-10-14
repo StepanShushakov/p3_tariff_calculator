@@ -50,7 +50,7 @@ public class CalculateController {
         var destination = new Point(
                 new Latitude(request.destination().latitude()),
                 new Longitude(request.destination().longitude())
-        );/**/
+        );
         var departure = new Point(
                 new Latitude(request.departure().latitude()),
                 new Longitude(request.departure().longitude())
